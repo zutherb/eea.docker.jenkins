@@ -13,18 +13,29 @@ pipeline {
             }
         }
         stage('Test') {
-            agent {
-                label 'slave-2'
-            }
-            steps {
-                unstash 'app'
-                sh '''
-                    echo 'Testing..'
-                    ls -lsah
-                    cat test.txt
-                    grep Test test.txt
-                '''
-                sleep 10
+            parallel slave-2: {
+                node('slave-2') {
+                    unstash 'app'
+                    sh '''
+                        echo 'Testing..'
+                        ls -lsah
+                        cat test.txt
+                        grep Test test.txt
+                    '''
+                    sleep 15
+                }
+            },
+            slave-1: {
+                node('windslave-1ws') {
+                    unstash 'app'
+                    sh '''
+                        echo 'Testing..'
+                        ls -lsah
+                        cat test.txt
+                        grep Test test.txt
+                        '''
+                    sleep 10
+                }
             }
         }
     }
