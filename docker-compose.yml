@@ -22,7 +22,7 @@ services:
       JENKINS_AGENT_NAME: "slave-1"
     command: "/connect_to_slave.sh"
     volumes:
-    - jenkins-slave-1:/var/jenkins_home/worker_1
+    - jenkins-slave-1:/home/jenkins/agent
     - "./connect_to_slave.sh:/connect_to_slave.sh"
     - "./get_slave-1_secret.groovy:/get_slave-1_secret.groovy"
 
@@ -35,7 +35,7 @@ services:
       JENKINS_RETRY: "10"
     command: "/connect_to_slave.sh"
     volumes:
-    - jenkins-slave-2:/var/jenkins_home/worker_2
+    - jenkins-slave-2:/home/jenkins/agent
     - "./connect_to_slave.sh:/connect_to_slave.sh"
     - "./get_slave-2_secret.groovy:/get_slave-2_secret.groovy"
 

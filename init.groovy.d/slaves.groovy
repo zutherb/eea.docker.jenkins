@@ -6,12 +6,12 @@ def launcher = new JNLPLauncher()
 
 DumbSlave slave_1 = new DumbSlave(
         "slave-1",
-        "/var/jenkins_home/worker_1",
+        "/home/jenkins/agent",
         launcher)
 
 DumbSlave slave_2 = new DumbSlave(
         "slave-2",
-        "/var/jenkins_home/worker_2",
+        "/home/jenkins/agent",
         launcher)
 
 Jenkins.instance.addNode(slave_1)

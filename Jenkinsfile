@@ -7,7 +7,9 @@ pipeline {
             }
             steps {
                 echo 'Building..'
+                echo 'Test' &> test.txt
                 sleep 10
+                stash name: 'app'
             }
         }
         stage('Test') {
@@ -15,7 +17,9 @@ pipeline {
                 label 'slave-2'
             }
             steps {
+                unstash 'app'
                 echo 'Testing..'
+                grep Test test.txt
                 sleep 10
             }
         }
