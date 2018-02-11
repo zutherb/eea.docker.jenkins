@@ -22,6 +22,8 @@ pipeline {
                 unstash 'app'
                 sh '''
                     echo 'Testing..'
+                    ls -lsah
+                    cat test.txt
                     grep Test test.txt
                 '''
                 sleep 10
