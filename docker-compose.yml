@@ -9,8 +9,10 @@ services:
       JAVA_OPTS: "-Djenkins.install.runSetupWizard=false -Xmx2048m"
     volumes:
     - jenkins-master:/var/jenkins_home/master
+    - "./init.groovy.d/plugins.groovy:/var/jenkins_home/init.groovy.d/plugins.groovy"
     - "./init.groovy.d/security.groovy:/var/jenkins_home/init.groovy.d/security.groovy"
     - "./init.groovy.d/slaves.groovy:/var/jenkins_home/init.groovy.d/slaves.groovy"
+    - "./init.groovy.d/workflow.groovy:/var/jenkins_home/init.groovy.d/workflow.groovy"
 
   slave-1:
     image: jenkinsci/jnlp-slave

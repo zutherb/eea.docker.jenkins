@@ -1,5 +1,3 @@
-#!groovy
-
 import hudson.model.Node.Mode
 import hudson.slaves.*
 import jenkins.model.Jenkins
