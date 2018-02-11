@@ -12,27 +12,37 @@ pipeline {
                 stash name: 'app'
             }
         }
-        stage('Test') {
+        stage('Run test') {
             parallel {
-                stage('slave-2') {
-                    unstash 'app'
-                    sh '''
-                        echo 'Testing..'
-                        ls -lsah
-                        cat test.txt
-                        grep Test test.txt
-                    '''
-                    sleep 15
-                }
-                stage('slave-1') {
-                    unstash 'app'
-                    sh '''
-                        echo 'Testing..'
-                        ls -lsah
-                        cat test.txt
-                        grep Test test.txt
+                stage('Run on Slave 1') {
+                    agent {
+                        label 'slave-1'
+                    }
+                    steps {
+                        unstash 'app'
+                        sh '''
+                            echo 'Testing..'
+                            ls -lsah
+                            cat test.txt
+                            grep Test test.txt
                         '''
-                    sleep 10
+                        sleep 10
+                    }
+                }
+                stage('Run on Slave 2') {
+                    agent {
+                        label 'slave-2'
+                    }
+                    steps {
+                        unstash 'app'
+                        sh '''
+                            echo 'Testing..'
+                            ls -lsah
+                            cat test.txt
+                            grep Test test.txt
+                        '''
+                        sleep 5
+                    }
                 }
             }
         }
