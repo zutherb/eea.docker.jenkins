@@ -8,6 +8,7 @@ pipeline {
             steps {
                 echo 'Building..'
                 writeFile file: "test.txt", text: "Test"
+                sleep 10
                 stash name: 'app'
             }
         }
