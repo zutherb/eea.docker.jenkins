@@ -6,11 +6,8 @@ pipeline {
                 label 'slave-1'
             }
             steps {
-                sh '''
-                    echo 'Building..'
-                    echo Test &> test.txt
-                    sleep 10
-                '''
+                echo 'Building..'
+                writeFile file: "test.txt", text: "This file is useful, need
                 stash name: 'app'
             }
         }
