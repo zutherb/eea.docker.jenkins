@@ -6,9 +6,11 @@ pipeline {
                 label 'slave-1'
             }
             steps {
-                echo 'Building..'
-                echo 'Test' &> test.txt
-                sleep 10
+                sh '''
+                    echo 'Building..'
+                    echo 'Test' &> test.txt
+                    sleep 10
+                '''
                 stash name: 'app'
             }
         }
@@ -18,8 +20,10 @@ pipeline {
             }
             steps {
                 unstash 'app'
-                echo 'Testing..'
-                grep Test test.txt
+                sh '''
+                    echo 'Testing..'
+                    grep Test test.txt
+                '''
                 sleep 10
             }
         }
