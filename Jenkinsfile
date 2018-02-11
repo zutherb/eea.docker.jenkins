@@ -7,7 +7,7 @@ pipeline {
             }
             steps {
                 echo 'Building..'
-                writeFile file: "test.txt", text: "This file is useful, need
+                writeFile file: "test.txt", text: "Test"
                 stash name: 'app'
             }
         }
