@@ -1,51 +1,38 @@
 import jenkins.model.*
-
-def plugins = ['authentication-tokens',
-               'build-monitor-plugin',
-               'build-name-setter',
-               'blue-ocean',
-               'build-with-parameters',
-               'cloudbees-folder',
-               'credentials',
-               'docker-workflow',
-               'durable-task',
-               'git',
-               'github',
-               'gravatar',
-               'greenballs',
-               'groovy',
-               'groovy-postbuild',
-               'job-dsl',
-               'ldap',
-               'matrix-auth',
-               'matrix-project',
-               'parameterized-trigger',
-               'pipeline-utility-steps',
-               'project-description-setter',
-               'rebuild',
-               'ssh-agent',
-               'ssh-credentials',
-               'timestamper',
-               'workflow-aggregator',
-               'workflow-cps',
-               'workflow-multibranch']
+import java.util.logging.Logger
+def logger = Logger.getLogger("")
+def installed = false
+def initialized = false
+def plugins = ["blueocean", "workflow-cps"]
+logger.info("Install Plugins" + plugins)
 
 def instance = Jenkins.getInstance()
 def pm = instance.getPluginManager()
 def uc = instance.getUpdateCenter()
-def installed = false
 
-println("Installing plugins: " + plugins)
-        plugins . each {
+plugins.each {
+    logger.info("Checking " + it)
     if (!pm.getPlugin(it)) {
+        logger.info("Looking UpdateCenter for " + it)
+        if (!initialized) {
+            uc.updateAllSites()
+            initialized = true
+            logger.info("UpdateCenter initialized")
+        }
         def plugin = uc.getPlugin(it)
         if (plugin) {
-            plugin.deploy()
+            logger.info("Installing " + it)
+            def installFuture = plugin.deploy()
+            while(!installFuture.isDone()) {
+                logger.info("Waiting for plugin install: " + it)
+                sleep(3000)
+            }
             installed = true
         }
     }
 }
-
-        instance . save()
-if (installed)
-    instance.doSafeRestart()
+if (installed) {
+    logger.info("Plugins installed, initializing a restart!")
+    instance.save()
+    instance.restart()
+}
