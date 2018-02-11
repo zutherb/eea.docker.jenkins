@@ -1,26 +1,43 @@
-version: "2"
+version: "3"
 services:
   master:
-    image: eeacms/jenkins-master
+    image: jenkins/jenkins
     ports:
     - "80:8080"
+    - "50000:50000"
     environment:
-    - JAVA_OPTS=-Xmx2048m
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false -Xmx2048m"
     volumes:
-    - jenkins-master:/var/jenkins_home
+    - jenkins-master:/var/jenkins_home/master
+    - "./init.groovy.d/security.groovy:/var/jenkins_home/init.groovy.d/security.groovy"
+    - "./init.groovy.d/slaves.groovy:/var/jenkins_home/init.groovy.d/slaves.groovy"
 
-  worker:
-    image: eeacms/jenkins-slave
+  slave-1:
+    image: jenkinsci/jnlp-slave
     environment:
       JAVA_OPTS: "-Xmx2048m"
-      JENKINS_MASTER: "http://master:8080"
-      JENKINS_NAME: "worker"
-      JENKINS_USER: "jenkins"
-      JENKINS_PASS: "jenkins"
-      JENKINS_RETRY: "10"
+      JENKINS_URL: "http://master:8080"
+      JENKINS_AGENT_NAME: "slave-1"
+    command: "/connect_to_slave.sh"
     volumes:
-    - jenkins-worker:/var/jenkins_home/worker
+    - jenkins-slave-1:/var/jenkins_home/worker_1
+    - "./connect_to_slave.sh:/connect_to_slave.sh"
+    - "./get_slave-1_secret.groovy:/get_slave-1_secret.groovy"
+
+  slave-2:
+    image: jenkinsci/jnlp-slave
+    environment:
+      JAVA_OPTS: "-Xmx2048m"
+      JENKINS_URL: "http://master:8080"
+      JENKINS_AGENT_NAME: "slave-2"
+      JENKINS_RETRY: "10"
+    command: "/connect_to_slave.sh"
+    volumes:
+    - jenkins-slave-2:/var/jenkins_home/worker_2
+    - "./connect_to_slave.sh:/connect_to_slave.sh"
+    - "./get_slave-2_secret.groovy:/get_slave-2_secret.groovy"
 
 volumes:
   jenkins-master:
-  jenkins-worker:
+  jenkins-slave-1:
+  jenkins-slave-2:
