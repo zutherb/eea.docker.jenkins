@@ -2,17 +2,21 @@ pipeline {
 
     stages {
         stage('Build') {
-            agent 'slave-1'
+            agent {
+                label 'slave-1'
+            }
             steps {
-                sleep 10
                 echo 'Building..'
+                sleep 10
             }
         }
         stage('Test') {
-            agent 'slave-2'
+            agent {
+                label 'slave-2'
+            }
             steps {
-                sleep 10
                 echo 'Testing..'
+                sleep 10
             }
         }
     }
