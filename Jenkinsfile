@@ -13,8 +13,8 @@ pipeline {
             }
         }
         stage('Test') {
-            parallel slave2: {
-                node('slave-2') {
+            parallel {
+                stage('slave-2') {
                     unstash 'app'
                     sh '''
                         echo 'Testing..'
@@ -24,9 +24,7 @@ pipeline {
                     '''
                     sleep 15
                 }
-            },
-            slave1: {
-                node('slave-1') {
+                stage('slave-1') {
                     unstash 'app'
                     sh '''
                         echo 'Testing..'
