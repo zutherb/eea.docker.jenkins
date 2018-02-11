@@ -8,7 +8,7 @@ pipeline {
             steps {
                 sh '''
                     echo 'Building..'
-                    echo Test \&> test.txt
+                    echo Test &> test.txt
                     sleep 10
                 '''
                 stash name: 'app'
