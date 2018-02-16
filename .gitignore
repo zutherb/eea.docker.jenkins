@@ -1,3 +1,6 @@
 .idea/
+geerlingguy.docker/
+.vagrant/
 *.pyc
+*.retry
 .secret
