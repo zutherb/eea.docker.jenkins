@@ -1,0 +1,1 @@
+DOCKER_OPTS="-H unix:///var/run/docker.sock -H tcp://10.0.0.2:2375"

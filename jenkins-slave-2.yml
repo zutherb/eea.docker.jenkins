@@ -1,6 +1,0 @@
-- hosts: slave-2
-  become: yes
-  roles:
-    - geerlingguy.docker
-    - common
-    - { role: jenkins-slave, slave_name: 'slave-2' }

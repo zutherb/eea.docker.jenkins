@@ -1,7 +1,19 @@
 ---
+- copy:
+    src:  docker_defaults
+    dest: /etc/default/docker
+
+- service:
+    name: docker
+    state: restarted
+
 - file:
     path: /var/jenkins/init.groovy.d
     state: directory
+
+- copy:
+    src:  docker.groovy
+    dest: /var/jenkins/init.groovy.d/docker.groovy
 
 - copy:
     src:  jnlp.groovy
@@ -16,13 +28,8 @@
     dest: /var/jenkins/init.groovy.d/security.groovy
 
 - copy:
-    src:  slaves.groovy
-    dest: /var/jenkins/init.groovy.d/slaves.groovy
-
-- copy:
     src:  workflow.groovy
     dest: /var/jenkins/init.groovy.d/workflow.groovy
-
 
 - docker_container:
     name: jenkins
@@ -36,8 +43,4 @@
     env:
       JAVA_OPTS: "-Djenkins.install.runSetupWizard=false -Xmx2048m"
     volumes:
-      - "/var/jenkins/init.groovy.d/jnlp.groovy:/var/jenkins_home/init.groovy.d/jnlp.groovy"
-      - "/var/jenkins/init.groovy.d/plugins.groovy:/var/jenkins_home/init.groovy.d/plugins.groovy"
-      - "/var/jenkins/init.groovy.d/security.groovy:/var/jenkins_home/init.groovy.d/security.groovy"
-      - "/var/jenkins/init.groovy.d/slaves.groovy:/var/jenkins_home/init.groovy.d/slaves.groovy"
-      - "/var/jenkins/init.groovy.d/workflow.groovy:/var/jenkins_home/init.groovy.d/workflow.groovy"
+      - "/var/jenkins/init.groovy.d/:/var/jenkins_home/init.groovy.d/"
