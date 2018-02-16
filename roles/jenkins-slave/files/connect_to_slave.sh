@@ -7,7 +7,7 @@ do
     SCRIPT_NAME+="_secret.groovy"
     SECRET=$(curl -s --user 'admin:admin' --data-urlencode "script=$(< $SCRIPT_NAME)" $JENKINS_URL/scriptText)
 
-    echo jenkins-slave -url http://$JENKINS_URL $SECRET $JENKINS_AGENT_NAME
-    jenkins-slave -url http://$JENKINS_URL $SECRET $JENKINS_AGENT_NAME
+    echo jenkins-slave -url $JENKINS_URL $SECRET $JENKINS_AGENT_NAME
+    jenkins-slave -url $JENKINS_URL $SECRET $JENKINS_AGENT_NAME
 done
 

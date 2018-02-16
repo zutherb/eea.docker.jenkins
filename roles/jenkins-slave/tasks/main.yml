@@ -24,7 +24,7 @@
       master: 10.0.0.2
     env:
       JAVA_OPTS: "-Xmx2048m"
-      JENKINS_URL: "master"
+      JENKINS_URL: "http://master"
       JENKINS_AGENT_NAME: "{{ slave_name }}"
     volumes:
       - "/var/jenkins/slave/connect_to_slave.sh:/connect_to_slave.sh"

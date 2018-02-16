@@ -4,6 +4,10 @@
     state: directory
 
 - copy:
+    src:  jnlp.groovy
+    dest: /var/jenkins/init.groovy.d/jnlp.groovy
+
+- copy:
     src:  plugins.groovy
     dest: /var/jenkins/init.groovy.d/plugins.groovy
 
@@ -32,6 +36,7 @@
     env:
       JAVA_OPTS: "-Djenkins.install.runSetupWizard=false -Xmx2048m"
     volumes:
+      - "/var/jenkins/init.groovy.d/jnlp.groovy:/var/jenkins_home/init.groovy.d/jnlp.groovy"
       - "/var/jenkins/init.groovy.d/plugins.groovy:/var/jenkins_home/init.groovy.d/plugins.groovy"
       - "/var/jenkins/init.groovy.d/security.groovy:/var/jenkins_home/init.groovy.d/security.groovy"
       - "/var/jenkins/init.groovy.d/slaves.groovy:/var/jenkins_home/init.groovy.d/slaves.groovy"
