@@ -1,4 +1,4 @@
-- hosts: master
+- hosts: cloud
   become: yes
   roles:
     - geerlingguy.docker

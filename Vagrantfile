@@ -12,16 +12,16 @@ Vagrant.configure("2") do |config|
     v.cpus = 2
   end
 
-  config.vm.define "master" do |master|
-    master.vm.hostname = "master"
+  config.vm.define "cloud" do |cloud|
+    cloud.vm.hostname = "cloud"
 
-    master.vm.network :forwarded_port, guest: 80, host: 8080, auto_correct: true
-    master.vm.network :forwarded_port, guest: 50000, host: 50000, auto_correct: true
-    master.vm.network :private_network, ip: '10.0.0.2'
+    cloud.vm.network :forwarded_port, guest: 80, host: 8080, auto_correct: true
+    cloud.vm.network :forwarded_port, guest: 50000, host: 50000, auto_correct: true
+    cloud.vm.network :private_network, ip: '10.0.0.2'
 
-    master.vm.provision :ansible do |ansible|
+    cloud.vm.provision :ansible do |ansible|
        ansible.galaxy_role_file = 'requirements.yml'
-       ansible.playbook = "jenkins-master.yml"
+       ansible.playbook = "jenkins-cloud.yml"
     end
   end
 
