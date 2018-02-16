@@ -1,0 +1,7 @@
+---
+- apt:
+    name: python-pip
+    update_cache: yes
+
+- pip:
+    name: docker-py

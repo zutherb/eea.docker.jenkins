@@ -1,0 +1,31 @@
+---
+- file:
+    path: /var/jenkins/slave/
+    state: directory
+
+- copy:
+    src:  connect_to_slave.sh
+    dest: /var/jenkins/slave/connect_to_slave.sh
+    mode: 0755
+
+- template:
+    src: get_secret.groovy
+    dest: /var/jenkins/slave/get_{{ slave_name }}_secret.groovy
+
+
+- docker_container:
+    name: jenkins-slave
+    image: jenkinsci/jnlp-slave
+    state: started
+    restart: yes
+    restart_policy: on-failure
+    command: "/connect_to_slave.sh"
+    etc_hosts:
+      master: 10.0.0.2
+    env:
+      JAVA_OPTS: "-Xmx2048m"
+      JENKINS_URL: "master"
+      JENKINS_AGENT_NAME: "{{ slave_name }}"
+    volumes:
+      - "/var/jenkins/slave/connect_to_slave.sh:/connect_to_slave.sh"
+      - "/var/jenkins/slave/get_{{ slave_name }}_secret.groovy:/get_{{ slave_name }}_secret.groovy"

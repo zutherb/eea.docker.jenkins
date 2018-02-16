@@ -1,0 +1,6 @@
+- hosts: master
+  sudo: yes
+  roles:
+    - geerlingguy.docker
+    - common
+    - jenkins-master
