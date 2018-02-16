@@ -1,5 +1,5 @@
 - hosts: slave-1
-  sudo: yes
+  become: yes
   roles:
     - geerlingguy.docker
     - common

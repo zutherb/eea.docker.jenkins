@@ -1,5 +1,5 @@
 - hosts: master
-  sudo: yes
+  become: yes
   roles:
     - geerlingguy.docker
     - common

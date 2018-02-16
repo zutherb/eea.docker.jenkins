@@ -3,7 +3,7 @@ import java.util.logging.Logger
 def logger = Logger.getLogger("")
 def installed = false
 def initialized = false
-def plugins = ["blueocean", "workflow-cps"]
+def plugins = ["blueocean", "workflow-cps", "workflow-multibranch", "branch-api", "git"]
 logger.info("Install Plugins" + plugins)
 
 def instance = Jenkins.getInstance()
