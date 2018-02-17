@@ -11,6 +11,7 @@ def plugins = [
         "docker",
         "docker-plugin",
         "durable-task",
+        "kubernetes",
         "git"]
 logger.info("Install Plugins: " + plugins)
 

@@ -1,6 +1,0 @@
-- hosts: cloud
-  become: yes
-  roles:
-    - geerlingguy.docker
-    - common
-    - jenkins-master
